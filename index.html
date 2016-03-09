@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="csrf_token" value="a01u9sZsduaks833">
+        <title>In Place Editor</title>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+            ip-field {
+                margin: 15px;
+                color: #0000EE;
+                text-decoration: none;
+                cursor: hand; cursor: pointer;
+                display: table;
+                font-family: sans-serif;
+                border-bottom: 1px dashed #0000EE;
+            }
+
+            ip-field.not-set {
+                color: #9C9CA2;
+                border-bottom-color: #9C9CA2;
+            }
+
+            ip-group {
+                margin: 15px;
+            }
+
+            ip-group > ip-field {
+                display: inline-block; 
+                margin: 0;
+            }
+
+            span.ip-edit {
+                display: block; 
+                margin: 11px 0 12px 15px;
+                    
+            }
+
+            input {
+                font-size: 0.9em; 
+            }
+        </style>
+    </head>
+    <body>
+        <ip-field type="text" name="random_text_1" post-url="/post" placeholder="type something here" if-empty="empty">This text is editable</ip-field>
+        <ip-field type="text" name="random_text_2" post-url="/post">Another text field</ip-field>
+        <ip-group post-url="/post" send-with='{"ok": "yes"}'>
+            <ip-field type="select" options=",Dr." name="prefix"></ip-field>
+            <ip-field type="text" name="first_name">Ben</ip-field>  
+            <ip-field type="text" name="last_name">Franklin</ip-field>
+        </ip-group>
+        <ip-field type="select" name="medisprout_status" ip-class="testclass" ip-id="testid" post-url="/post" options="Active,Inactive,Demo">Inactive</ip-field>
+        <ip-field type="checkbox" ip-class="testclass" ip-id="testid" name="status" post-url="/post" ip-false="Disabled" ip-true="Enabled" ip-toggle="Enabled">Enabled</ip-field>
+        <hr>
+        <ip-group post-url="/post">
+            <ip-field type="text" name="street1">101 S. Congress</ip-field><br />
+            <ip-field type="text" name="street2">Ste. 109</ip-field><br />
+            <ip-field type="text" name="city">Austin</ip-field>,
+            <ip-field type="text" name="state">TX</ip-field>
+            <ip-field type="text" name="zipcode">78701</ip-field>
+        </ip-group>
+        <ip-field type="select" name="type" post-url="/post" options='[{"value": "1", "display": "Provider"}, {"value": "0", "display": "Admin"}, {"value": 2, "display": "Supervisor"}]'>Provider</ip-field>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', Manager.init);
+    </script>
+</html>
