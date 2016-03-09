@@ -3,7 +3,9 @@ A simple, modular, javascript package for in-place editing. Written in vanilla J
 
 This is currently a work in progress and probably should be used carefully.
 
-Initialize your code however you want. Calling `Manager.init()` will scan the page for `ip-field` tags and attach on-click even listeners. I'll probably end up renaming `Manager` to something more descriptive.
+Use this by including `editor.js` with whichever method you like best.
+
+Initialize the package by calling `Manager.init()`. This scans the page for `ip-field` tags and attaches on-click event listeners. (I'll probably end up renaming `Manager` to something more descriptive.)
 
 ```html
 <script>
