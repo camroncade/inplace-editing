@@ -61,8 +61,18 @@
             <ip-field type="text" name="zipcode">78701</ip-field>
         </ip-group>
         <ip-field type="select" name="type" post-url="/post" options='[{"value": "1", "display": "Provider"}, {"value": "0", "display": "Admin"}, {"value": 2, "display": "Supervisor"}]'>Provider</ip-field>
+
+        <ip-field type="textarea" name="description" post-url="/">This is a larger body of text that can be edited with a text area.</ip-field>
     </body>
     <script>
+        csrf = document.querySelector('meta[name="csrf_token"]').getAttribute('value');
+        Manager.setConfig({
+            sendWith: {
+                "csrf": csrf,
+                "method": "_put",
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', Manager.init);
     </script>
 </html>

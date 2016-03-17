@@ -84,6 +84,8 @@ var Manager = {
             return new SelectField(element);
         else if (type == 'checkbox')
             return new CheckboxField(element);
+        else if (type == 'textarea')
+            return new TextareaField(element);
     },
     instantiateFieldsFromGroup: function (groupElement) {
         fields = Array.from(groupElement.querySelectorAll('ip-field'));
@@ -350,10 +352,52 @@ CheckboxField.prototype.getValue = function () {
     return this.value
 }
 
-csrf = document.querySelector('meta[name="csrf_token"]').getAttribute('value');
-Manager.setConfig({
-    sendWith: {
-        "csrf": csrf,
-        "method": "_put",
+function TextareaField(element) {
+    this.element = element;
+    this.value = element.textContent;
+    this.display = element.textContent;
+    if (element.hasAttribute('post-url'))
+        this.url = element.getAttribute('post-url');
+    else if (element.parentNode.localName == 'ip-group' && element.parentNode.hasAttribute('post-url'))
+        this.url = element.parentNode.getAttribute('post-url');
+    if (element.hasAttribute('name'))
+        this.name = element.getAttribute('name');
+    if (element.hasAttribute('if-empty'))
+        this.emptyText = element.getAttribute('if-empty');
+    if (element.hasAttribute('field-class'))
+        this.fieldClass = element.getAttribute('field-class');
+    if (element.hasAttribute('field-id'))
+        this.fieldId = element.getAttribute('field-id');
+}
+
+TextareaField.prototype.form = function () {
+    this.form = document.createElement('textarea');
+    if ( ! this.element.classList.contains('empty'))
+        this.form.textContent = this.element.textContent;
+    else
+        this.form.setAttribute('value', '');
+    if (this.fieldClass)
+        this.form.setAttribute('class', this.fieldClass);
+    if (this.fieldId)
+        this.form.setAttribute('id', this.fieldId);
+
+    return this.form;
+}
+
+TextareaField.prototype.getDisplay = function () {
+    if (this.form.textContent.length > 0) {
+        this.display = this.form.textContent;
+        this.element.classList.remove('not-set');
+    } else {
+        this.display = this.emptyText;
+        this.element.classList.add('not-set');
     }
-});
+
+    return this.display;
+}
+
+TextareaField.prototype.getValue = function () {
+    this.value = this.form.textContent;
+
+    return this.value;
+}
